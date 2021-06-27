@@ -24,7 +24,7 @@ export class RequestComponent implements OnInit {
   ngOnInit() {
     // Инициализация FormGroup, создание FormControl, и назанчение Validators
     this.requestFrom = new FormGroup({
-      fio: new FormControl("", [Validators.required]),
+      name: new FormControl("", [Validators.required]),
       phone: new FormControl("", [Validators.required]),
     });
   }
@@ -35,12 +35,12 @@ export class RequestComponent implements OnInit {
    // Функция входа, отправляющая данные, полученные с формы на сервер, и реагирующая на ответ с сервера
    async onRequest() {
     localStorage.clear();
-    if (this.requestFrom.value.fio == "" || this.requestFrom.value.phone == "") {
+    if (this.requestFrom.value.name == "" || this.requestFrom.value.phone == "") {
       this.isEmpty = false;
     } else {
       this.isEmpty = true;
       let infoAboutRequest = {
-        fio: this.requestFrom.value.fio,
+        name: this.requestFrom.value.name,
         phone: this.requestFrom.value.phone,
       };
       console.log(infoAboutRequest);

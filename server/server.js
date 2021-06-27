@@ -235,7 +235,7 @@ app.post("/api/request", (req, res) => {
   if (!req.body) return res.sendStatus(400);
   console.log('Пришёл POST запрос для добавления заявки на обратный звонок:');
   console.log(req.body);
-  connection.query(`INSERT INTO requests (name, phone, id_call_request_status ) VALUES (?, ?, ?);`,
+  connection.query(`INSERT INTO requests (name, phone, id_call_request_status) VALUES (?, ?, ?);`,
     [req.body.name, req.body.phone, 'принят в работу', 'не заполнено'],
     function (err) {
       if (err) {
@@ -252,8 +252,8 @@ app.put("/api/requests/:id_request", (req, res) => {
   if (!req.body) return res.sendStatus(400);
   console.log('Пришёл POST запрос для добавления заявки на обратный звонок:');
   console.log(req.body);
-  connection.query(`UPDATE requests SET status=?, purpose=? WHERE id_request=?`,
-    [req.body.status, req.body.purpose, req.params.id_request],
+  connection.query(`UPDATE requests SET id_call_request_status=? WHERE id_request=?`,
+    [req.body.id_call_request_status, req.params.id_request],
     function (err) {
       if (err) {
         res.status(500).send('Ошибка сервера при добавлении заявки на обратный звонок')
@@ -263,6 +263,8 @@ app.put("/api/requests/:id_request", (req, res) => {
       res.json("create");
     });
 })
+
+
 
 // Получение списка всех заявок на обратный звонок
 app.get('/api/requests', function (req, res) {
