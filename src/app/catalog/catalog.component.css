@@ -1,14 +1,14 @@
 input {
-    border: 1px solid rgb(253, 196, 241) !important; 
+    border: 1px solid rgb(253, 217, 196) !important;
 }
 
 input:focus {
-    box-shadow: 0 0 0 0.2rem rgba(214, 109, 191, 0.384) !important;
+    box-shadow: 0 0 0 0.2rem rgba(214, 165, 109, 0.384) !important;
     outline: none !important;
-    border: 1px solid rgb(245, 142, 223) !important; 
-} 
+    border: 1px solid rgb(245, 188, 142) !important;
+}
 
 .input-group-text {
     background: white !important;
-    border: 1px solid rgb(253, 196, 241) !important; 
+    border: 1px solid rgb(253, 219, 196) !important;
 }

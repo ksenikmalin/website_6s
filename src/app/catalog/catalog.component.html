@@ -1,21 +1,18 @@
 <div class="container">
-  <h2 class="mt-5 mb-3 d-flex justify-content-center">Каталог услуг</h2>
-  <p *ngIf="hide2 && hide1 && hide3" class="mt-4 mb-4 d-flex justify-content-center">Хотите записаться на услугу?<a [routerLink]="['/login']">&nbsp;Авторизируйтесь на сайте в качестве клиента!</a></p>
+  <h2 class="mt-5 mb-3 d-flex justify-content-center">Прайс услуг</h2>
+  <p *ngIf="hide2 && hide1 && hide3" class="mt-4 mb-4 d-flex justify-content-center">Для просмотра услуг и цен<a [routerLink]="['/login']">&nbsp;авторизируйтесь на сайте в качестве клиента!</a></p>
   <div class="row mt-2 mb-1">
-  <!-- <div class="col-3">
-    <p>Поиск по каталогу услуг</p>
-  </div> -->
-  <div class="col-5">
+  <div class="col-5" style="margin: 0 auto;">
     <div class="input-group mb-2">
       <div class="input-group-prepend">
         <div class="input-group-text">
           <svg class="bi bi-search" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path color="rgb(253, 196, 241)" fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
-            <path color="rgb(253, 196, 241)" fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+            <path color="rgb(245, 188, 142) " fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+            <path color="rgb(245, 188, 142) " fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
           </svg>
         </div>
       </div>
-      <input type="text" [(ngModel)]="search_service" class="form-control" placeholder="Поиск по каталогу услуг">
+      <input type="text" [(ngModel)]="search_service" class="form-control" placeholder="Поиск услуги">
   </div>
   </div>
 </div>
@@ -40,4 +37,3 @@
         <h3 class="font-weight-normal">К сожалению, услуг не найдено.</h3>
       </ng-template>
   </div>
-  

@@ -15,10 +15,8 @@ export class RequestComponent implements OnInit {
   requestFrom: FormGroup;
   request = {
     id_request: "",
-    fio: "",
+    name: "",
     phone: "",
-    status: "",
-    purpose: "",
   };
 
   constructor(private mainService: MainService) { }
@@ -61,6 +59,6 @@ export class RequestComponent implements OnInit {
     this.succes=false;
     this.isEmpty=true;
   }
-  
+
 
 }
