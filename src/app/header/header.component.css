@@ -1,0 +1,42 @@
+.nav-beaty {
+    background-color: rgb(29, 30, 34) !important;
+}
+
+.navbar-nav li a {
+    color: white !important;
+    font-size: 18px;
+}
+
+.navbar-brand {
+    color: white;
+    font-weight: bold;
+}
+
+.navbar-brand:hover, .navbar-brand:focus, .navbar-brand:active {
+    color: white !important;
+}
+
+.nav-role {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.btn-log {
+
+
+    color: #fff;
+    background-color: rgb(233, 134, 42) !important;
+    border: 1px solid rgb(233, 134, 42) !important;
+}
+
+.btn-log:hover {
+  background-color: rgb(253, 253, 253) !important;
+  border: 1px solid rgb(255, 255, 255);
+  color: rgb(255, 80, 11);
+}
+
+.btn-log:focus {
+    border-color:rgb(233, 134, 42);
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(214, 147, 109, 0.384) !important;
+}

@@ -1,0 +1,43 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light nav-beaty">
+  <a class="navbar-brand" [routerLink]="['/']">
+    <img src="assets/spray-paint.png" width="50" height="50" alt="logo">
+   Агентсво по ремонту квартир</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
+    <ul class="navbar-nav">
+      <li>
+        <a class="nav-link"
+          [routerLink]="['/']">Главная</a>
+      </li>
+      <li>
+        <a class="nav-link"
+          [routerLink]="['/catalog']">Каталог услуг</a>
+      </li>
+      <!-- <li *ngIf="(!logOut) && (role=='Администратор')">
+        <a class="nav-link" [routerLink]="['/list-user']">
+          Список пользователей сайта
+        </a>
+      </li>
+      <li *ngIf="(!logOut) && (role=='Администратор')">
+        <a class="nav-link" [routerLink]="['/masters']">
+          Список мастеров салона красоты
+        </a>
+      </li> -->
+      <!-- <li *ngIf="(!logOut)">
+        <a class="nav-link"
+          [routerLink]="['/favour']">Избранное</a>
+      </li> -->
+      <li class="nav-item" *ngIf="logOut">
+        <button class="btn btn-log" [routerLink]="['/login']">Авторизация</button>
+      </li>
+      <li *ngIf="(!logOut) && (role!='')">
+        <a class="nav-link nav-role" *ngIf="!logOut" [routerLink]="['/profile']" >{{role}} {{name}}</a>
+      </li>
+      <li class="nav-item" *ngIf="!logOut">
+        <button class="btn btn-danger" (click)="onLogOut()">Авторизация</button>
+      </li>
+    </ul>
+  </div>
+</nav>

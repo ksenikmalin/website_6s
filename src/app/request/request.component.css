@@ -1,0 +1,21 @@
+.btn-beauty {
+
+    color: white;
+}
+
+.btn-beauty:hover {
+    color: #fff;
+    background-color: rgb(35, 167, 41) !important;
+    border-color:rgb(35, 167, 41);
+}
+
+input:focus, .btn-beauty:focus {
+    border-color:rgb(35, 167, 41);
+    box-shadow: 0 0 0 0.2rem rgba(125, 226, 122, 0.384) !important;
+}
+
+.card-beauty {
+    padding: 20px !important;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}

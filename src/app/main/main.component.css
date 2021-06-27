@@ -1,0 +1,52 @@
+.btn-beauty {
+    background-color: rgb(233, 134, 42) !important;
+    color: white;
+}
+
+.btn-beauty:hover {
+    color: #fff;
+    background-color: rgb(233, 134, 42) !important;
+    border-color:rgb(233, 134, 42);
+}
+
+.btn-beauty:focus {
+    box-shadow: 0 0 0 0.2rem rgba(226, 184, 122, 0.384);
+}
+
+
+h5, .text-muted {
+    text-transform: uppercase;
+}
+
+
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba(36, 34, 33, 0.979);
+  color: rgb(255, 255, 255);
+}
+
+.p-info{
+  text-indent: 1.5em; /* Отступ первой строки */
+  text-align: justify; /* Выравнивание по ширине */
+}
+
+p{
+  font-size: 14px;
+
+  line-height: 25px;
+}
+
+.photo{
+  background: url(/assets/spray-paint.png) no-repeat;
+}
+
+
+.lead{
+  margin-right: 46px;
+}
+.but{
+  margin-left: 73px;
+}
+

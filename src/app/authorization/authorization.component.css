@@ -1,0 +1,64 @@
+.flex {
+  height: 75vh;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+
+}
+
+.form-login {
+  display: block;
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.form-login input {
+  padding: 10px !important;
+  height: 46px;
+}
+
+.attention {
+  text-align: left !important;
+  color: rgb(255, 166, 0);
+  margin-bottom: 10px;
+}
+
+.attention span {
+  margin-top: -15px;
+  display: block;
+}
+
+
+.btn-beauty {
+  background-color: rgb(233, 134, 42)!important;
+  border: 1px solid rgb(255, 255, 255);
+  color: rgb(255, 255, 255) !important;
+}
+
+.btn-beauty:hover {
+  color: #fff;
+  background-color: rgb(233, 134, 42) !important;
+  border: 1px solid rgb(233, 134, 42) !important;
+}
+
+.btn-beauty:focus {
+  border-color:rgb(233, 134, 42);
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(214, 181, 109, 0.384) !important;
+}
+
+input:hover, input:focus {
+  box-shadow: 0 0 0 0.2rem rgba(214, 181, 109, 0.384) !important;
+  outline: none !important;
+  border: 1px solid rgb(233, 134, 42) !important;
+}
+
+input {
+  border: 1px solid rgb(253, 235, 196) !important;
+}

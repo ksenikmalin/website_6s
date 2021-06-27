@@ -1,0 +1,11 @@
+
+@media print {
+    footer, hr {
+        display: none !important;
+    }
+}
+.fab{
+  margin: 0 auto;
+padding: 10px;
+}
+

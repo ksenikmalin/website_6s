@@ -1,0 +1,49 @@
+<div *ngIf="loading" style="height: calc(100vh - 73px - 2rem);" class="container d-flex justify-content-center align-content-center">
+    <div class="spinner-border txt-gray-bread m-auto" role="status">
+        <span class="sr-only ">Loading...</span>
+    </div>
+</div>
+<div *ngIf="!loading" class="container">
+    <h2 class="mb-5 mt-5">Cписок заявок на обратный звонок</h2>
+    <div class="row">
+        <div class="col-3">
+            <p>Сортировка по ФИО</p>
+        </div>
+        <div class="col-3">
+            <p>Показать только (статус)</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            <select class="form-control" [(ngModel)]="filter_abc" class="form-control" >
+                <option value="0" selected>все</option>
+                <option value="1">А-Я</option>
+                <option value="2">Я-А</option>
+            </select>
+        </div>
+        <div class="col-3">
+            <select class="form-control" [(ngModel)]="filter_status" class="form-control" >
+                <option value="0" selected>все</option>
+                <option value="1">принят в работу</option>
+                <option value="2">звонок отклонен</option>
+                <option value="3">звонок совершен</option>
+            </select>
+        </div>
+    </div>
+
+    <br>
+    
+    <div class="wrap-for-table">
+        <table class="table">
+        <tr>
+            <th>ФИО</th>
+            <th>Телефон</th>
+            <th>Статус</th>
+            <th>Цель</th>
+            <th *ngIf="!hideManager">Управление</th>
+        </tr>
+            <tbody *ngFor="let request of requests | sort:filter_status | sortAbc: filter_abc" [request]="request"></tbody>
+        </table>
+    </div>
+    
+</div>

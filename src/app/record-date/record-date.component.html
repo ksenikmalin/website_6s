@@ -1,0 +1,39 @@
+<div class="container mt-5">
+    <div class="d-flex justify-content-center">
+        <form [formGroup]="recordFrom" class="w-50 card-beauty">
+            <h3 class="d-flex justify-content-center">Записаться к мастеру</h3>
+            <h5>Выбранная услуга: {{service.name}}</h5>
+            <p>Выбранный мастер: {{master.fio}}
+            <p>Указанный телефон: {{record.phone}}</p>
+            <!-- <div class="form-group">
+                <select class="form-control" formControlName="id_master" [(ngModel)]="name_master">
+                    <option *ngFor="let master of masters" [ngValue]="master.id_master">
+                     {{ master.fio }}
+                    </option>
+                </select> 
+            </div> -->
+            <div class="form-group">
+                <label for="exampleInputPhone">Выберите дату:</label>
+                <input bsDatepicker formControlName="date" placeholder="Выберите дату"  
+                [minDate]="today" type="date"
+                 id="exampleInputPhone" class="form-control"  [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD', containerClass: 'theme-red' }" >
+                <!-- <select class="form-control" formControlName="time" [(ngModel)]="name_time">
+                    <option *ngFor="let master of masters" [ngValue]="master.hour">
+                     {{ master.hour }}
+                    </option>
+                </select>  -->
+            </div>
+
+            <div *ngIf="!isEmpty" class="alert alert-danger">
+                <span class="field-required">Одно или несколько полей пустые!</span>
+            </div>
+
+            <h5 class="text-success">Стоимость выбранной услуги: {{record.price}} рублей</h5>
+
+            <div class="d-flex justify-content-center">
+                <button (click)="onLinkRecordDate()"  type="submit" class="btn btn-beauty">Записаться</button>
+            </div>
+            <h5 *ngIf="succes" class="text-success d-flex justify-content-center">Вы успешно записаны!</h5>
+        </form>
+    </div>
+</div>

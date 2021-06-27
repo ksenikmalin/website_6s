@@ -1,0 +1,41 @@
+/* You can add global styles to this file, and also import other style files */
+
+.afu-select-btn {
+    border-color: rgb(252, 178, 236) !important;
+    background: rgb(255, 169, 236) !important;
+    color: #fff !important;
+    margin-bottom: 0 !important;
+}
+.afu-reset-btn {
+    border-color: #dc3545 !important;
+    display: none !important;
+    background: #dc3545 !important;
+}
+.afu-constraints-info{
+    display: none;
+}
+.card-body{
+    min-height: 10rem !important;
+}
+div#default.container{
+    padding: 0 !important;
+}
+.afu-upload-btn{
+    border-color: #33b652 !important;
+    background: #28a745 !important;
+}
+div.afu-valid-file{
+    margin-left: 0;
+    margin-right: 0;
+}
+div.afu-valid-file p{
+    margin-bottom: 0; 
+}
+div.afu-valid-file p span{
+    color: black !important; 
+}
+
+
+.bg-white {
+  background-color: #fff !important;
+}
