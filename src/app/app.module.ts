@@ -42,6 +42,9 @@ import { RecordComponent } from './record/record.component';
 import { ViewRecordComponent } from './view-record/view-record.component';
 import { ViewRequestComponent } from './view-request/view-request.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ObjectServiceComponent } from './object-service/object-service.component';
+import { DurationServiceComponent } from './duration-service/duration-service.component';
+import { AddObjectComponent } from './add-object/add-object.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +77,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     RecordComponent,
     ViewRecordComponent,
     ViewRequestComponent,
-    DashboardComponent
+    DashboardComponent,
+    ObjectServiceComponent,
+    DurationServiceComponent,
+    AddObjectComponent
   ],
   imports: [
     BrowserModule,

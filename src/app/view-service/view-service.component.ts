@@ -4,6 +4,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MainService } from '../shared/services/main.service';
 import { Service } from '../shared/models/service.model';
 import { environment } from '../../environments/environment';
+import { RepairType } from '../shared/models/repair_type.model';
+import { ObjectFlat } from '../shared/models/object.model';
+import { Duration } from '../shared/models/duration.model';
 
 @Component({
   selector: 'app-view-service',
@@ -17,6 +20,17 @@ export class ViewServiceComponent implements OnInit {
   loading = false;
   // Лoгическая переменная, определяющая режим чтения или редактирования включен
   editOrNot = true;
+
+  repair_types: RepairType[] = [];
+  id_repair_type;
+
+
+  objects: ObjectFlat[] = [];
+id_object;
+
+  durations: Duration[] = [];
+id_duration;
+
   res;
   heart = false;
   hide3 = true;
@@ -26,11 +40,13 @@ export class ViewServiceComponent implements OnInit {
   formService: FormGroup;
   service: any = {
     id_service: "",
-    name: "",
-    name_specialization: "",
-    description: "",
+    namenovanie: "",
     price: "",
+    id_object: "",
+    id_duration: "",
+    id_repair_type: "",
     filename: "",
+
   };
   item = {
     id: 0,
@@ -46,7 +62,7 @@ export class ViewServiceComponent implements OnInit {
     });
   }
 
-  async ngOnInit() {            
+  async ngOnInit() {
     this.loading = true;
     // Отправка на сервер запроса для получения карточки товара по id
     try {
@@ -61,15 +77,72 @@ export class ViewServiceComponent implements OnInit {
     this.service = this.res[0];
     console.log(this.service);
     this.loading = false;
+
+    try {
+      let result = await this.mainService.get("/durations");
+      if (typeof result !== "undefined") {
+        console.log(result);
+        for (const one in result) {
+          this.durations.push(
+            new Duration(
+              result[one].id_duration,
+              result[one].namenovanie
+            )
+          );
+        }
+        this.id_duration= result[0].id_duration;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+
+    try {
+      let result = await this.mainService.get("/repair_types");
+      if (typeof result !== "undefined") {
+        console.log(result);
+        for (const one in result) {
+          this.repair_types.push(
+            new RepairType(
+              result[one].id_repair_type,
+              result[one].namenovanie,
+              result[one].description
+            )
+          );
+        }
+        this.id_repair_type = result[0].id_repair_type;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+    try {
+      let result = await this.mainService.get("/objects");
+      if (typeof result !== "undefined") {
+        console.log(result);
+        for (const one in result) {
+          this.objects.push(
+            new ObjectFlat(
+              result[one].id_object,
+              result[one].namenovanie
+            )
+          );
+        }
+        this.id_object = result[0].id_object;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+
     if (this.service.id_service != "") {
       // Инициализация FormGroup, создание FormControl, и назанчение Validators
       this.formService = new FormGroup({
-        price: new FormControl(`${this.service.price}`, [Validators.required]),
-        name: new FormControl(`${this.service.name}`, [Validators.required]),
-        name_specialization: new FormControl(`${this.service.name_specialization}`, [Validators.required]),
-        description: new FormControl(`${this.service.description}`, [
-          Validators.required,
-        ]),
+        'namenovanie': new FormControl(`${this.service.naim_ser}`, [Validators.required]),
+        'price': new FormControl(`${this.service.price}`, [Validators.required]),
+        'id_object': new FormControl(`${this.service.id_object}`, [Validators.required]),
+        'id_duration': new FormControl(`${this.service.id_duration}`, [Validators.required]),
+        'id_repair_type': new FormControl(`${this.service.id_repair_type}`, [Validators.required]),
       });
     }
   }
@@ -96,10 +169,11 @@ export class ViewServiceComponent implements OnInit {
       this.hide3 = false;
     }
   }
+
   // Отправляет запрос удаления карточки на сервер
   async onDeleteService() {
     try {
-      let result = await this.mainService.delete(`/deleteService/${this.service.id_service}`);
+      let result = await this.mainService.delete(`/deleteService/${this.item.id}`);
     } catch (error) {
       console.log(error);
     }
@@ -110,28 +184,33 @@ export class ViewServiceComponent implements OnInit {
   async onChangeService() {
     if (!this.editOrNot) {
       let newService = new Service(
-        this.service.id_service,
-        this.formService.value.name,
-        this.formService.value.id_specialization,
-        this.formService.value.description,
+        this.item.id,
+        this.formService.value.namenovanie,
         this.formService.value.price,
+        this.formService.value.id_object,
+        this.formService.value.id_duration,
+        this.formService.value.id_repair_type,
         this.service.filename,
       );
-      console.log(this.service.id_service);
-      
+
+      console.log(this.formService.value.id_object);
+      console.log(this.item.id);
+
       try {
         let res = await this.mainService.put(
           JSON.stringify(newService),
-          `/services/${this.service.id_service}`
+          `/services/${this.item.id}`
         );
       } catch (error) {
         console.log(error);
       }
-      this.service.name = this.formService.value.name;
-      this.service.id_specialization = this.formService.value.id_specialization;
+      this.service.namenovanie = this.formService.value.namenovanie;
       this.service.price = this.formService.value.price;
-      this.service.description = this.formService.value.description;
+      this.service.id_object = this.formService.value.id_object;
+      this.service.id_duration = this.formService.value.id_duration;
+      this.service.id_repair_type = this.formService.value.id_repair_type;
     }
     this.editOrNot = !this.editOrNot;
   }
 }
+

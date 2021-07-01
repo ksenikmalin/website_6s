@@ -32,14 +32,17 @@ export class ProfileComponent implements OnInit {
        for (const one in result) {
          this.records.push(
            new Record(
+
              result[one].id_record,
-             result[one].id_master,
-             result[one].id_service,
-             result[one].id,
              result[one].phone,
-             result[one].date,
-             result[one].time,
+             result[one].address,
+             result[one].square,
              result[one].price,
+             result[one].id_user,
+             result[one].id_services
+
+
+
            )
          );
        }

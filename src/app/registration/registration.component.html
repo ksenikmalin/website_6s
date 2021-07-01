@@ -3,17 +3,17 @@
   <form class="form-login" [formGroup]="form">
     <h3 class="font-weight-normal mb-3">Регистрация</h3>
 
-    <input (focus)="onFlag()" formControlName="name" type="text" class="form-control mb-3"
+    <input (focus)="onFlag()" formControlName="surname" type="text" class="form-control mb-3"
       placeholder="Фамилия">
 
       <input (focus)="onFlag()" formControlName="name" type="text" class="form-control mb-3"
         placeholder="Имя">
 
-        <input (focus)="onFlag()" formControlName="name" type="text" class="form-control mb-3"
+        <input (focus)="onFlag()" formControlName="patronymic" type="text" class="form-control mb-3"
           placeholder="Отчество">
 
-          <input (focus)="onFlag()" formControlName="name" type="phone" class="form-control mb-3"
-            placeholder="Номер телефона">
+          <input (focus)="onFlag()" formControlName="number_phone" type="phone" class="form-control mb-3 "
+            placeholder="Номер телефона" [textMask]="{mask: mask}" placeholder="(999) 999-99-99">
 
             <input (focus)="onFlag()" formControlName="login" type="login" class="form-control mb-3"
               placeholder="Логин">

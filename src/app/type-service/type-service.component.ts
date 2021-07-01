@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MainService } from '../shared/services/main.service';
-import { Specialization } from '../shared/models/specialization.model';
+import { RepairType } from '../shared/models/repair_type.model';
 
 @Component({
   selector: 'app-type-service',
@@ -15,8 +15,8 @@ export class TypeServiceComponent implements OnInit {
   isEmpty = true;
   // Логическая переменная, определяющая наличие или отсутсвие сообщения об успешном добавлении товара
   success = false;
+  repair_types: RepairType[] = [];
 
-  specializations: Specialization[] = [];
 
   constructor(private mainService: MainService) {}
 
@@ -24,14 +24,15 @@ export class TypeServiceComponent implements OnInit {
     // Получение списка всех заявок на обратный звонок,  имеющихся в БД
     this.loading = true;
     try {
-      let result = await this.mainService.get("/specializations");
+      let result = await this.mainService.get("/repair_types");
       if (typeof result !== "undefined") {
         console.log(result);
         for (const one in result) {
-          this.specializations.push(
-            new Specialization(
-              result[one].id_specialization,
-              result[one].name_specialization
+          this.repair_types.push(
+            new RepairType(
+              result[one].id_repair_type,
+              result[one].namenovanie,
+              result[one].description
             )
           );
         }
@@ -42,15 +43,15 @@ export class TypeServiceComponent implements OnInit {
     this.loading = false;
   }
 
-  async onDeleteSpecialization(id_specialization) {
+  async onDeleteRepairType(id_repair_type) {
     try {
-      let result = await this.mainService.delete(`/specializations/${id_specialization}`);
+      let result = await this.mainService.delete(`/repair_types/${id_repair_type}`);
     } catch (error) {
       console.log(error);
     }
-    let index = this.specializations.findIndex((el) => {
-      return el.id_specialization == id_specialization;
+    let index = this.repair_types.findIndex((el) => {
+      return el.id_repair_type== id_repair_type;
     });
-    this.specializations.splice(index, 1);
+    this.repair_types.splice(index, 1);
   }
 }

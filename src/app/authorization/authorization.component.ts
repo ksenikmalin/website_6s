@@ -45,7 +45,7 @@ export class AuthorizationComponent implements OnInit {
     {
       this.isEmpty=true;
       let infoAboutUser;
-    infoAboutUser = {
+      infoAboutUser = {
       login: this.form.value.login,
       password: this.form.value.password,
     }

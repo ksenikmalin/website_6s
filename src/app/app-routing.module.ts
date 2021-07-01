@@ -14,6 +14,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { ListRequestsComponent } from './list-requests/list-requests.component';
 import { ListRecordsComponent } from './list-records/list-records.component';
 import { TypeServiceComponent } from './type-service/type-service.component';
+import { AddObjectComponent } from './add-object/add-object.component';
+import { ObjectServiceComponent } from './object-service/object-service.component';
 import { AddTypeServiceComponent } from './add-type-service/add-type-service.component';
 import { RecordMasterComponent } from './record-master/record-master.component';
 import { RecordDateComponent } from './record-date/record-date.component';
@@ -25,7 +27,7 @@ const routes: Routes = [
   { path: "", component: MainComponent },
   { path: "registration", component: RegistrationComponent },
   { path: "login", component: AuthorizationComponent },
-  
+
   { path: "profile", component: ProfileComponent },
   { path: "catalog", component: CatalogComponent },
   { path: "addService", component: AddServiceComponent },
@@ -38,6 +40,8 @@ const routes: Routes = [
   { path: "add-role", component: AddRoleComponent },
   { path: "list-user", component: ListUserComponent },
   { path: "list-specialization", component: TypeServiceComponent },
+  { path: "list-objects", component: ObjectServiceComponent },
+  { path: "add-object", component: AddObjectComponent },
   { path: "add-type-specialization", component: AddTypeServiceComponent },
   { path: "record-master/:id_service", component: RecordMasterComponent },
   { path: "record-date/record", component: RecordDateComponent},

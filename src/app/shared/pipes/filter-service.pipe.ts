@@ -11,7 +11,7 @@ export class FilterService implements PipeTransform {
     if (!isNullOrUndefined(services) && search.trim() !== "") {
       console.log(search);
       let filter_services = services.filter(
-        service => service.name.toLowerCase().indexOf(search.toLowerCase()) === 0
+        service => service.namenovanie.toLowerCase().indexOf(search.toLowerCase()) === 0
       );
       return  filter_services;
     }

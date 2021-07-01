@@ -115,7 +115,7 @@ app.post("/api/registration", (req, res) => {
   if (!req.body) return res.sendStatus(400);
   console.log('Пришёл POST запрос для пользователей:');
   console.log(req.body);
-  connection.query(`SELECT * FROM user WHERE email='${req.body.email}'`, function (error, results) {
+  connection.query(`SELECT * FROM user WHERE login='${req.body.login}'`, function (error, results) {
     if (error) {
       res.status(500).send('Ошибка сервера при получении пользователей с таким же логином')
       console.log(error);
@@ -123,8 +123,8 @@ app.post("/api/registration", (req, res) => {
     console.log('Результаты проверки существования логина:');
     console.log(results[0]);
     if (results[0] === undefined) {
-      connection.query('INSERT INTO `user` (`id`, `email`, `password`, `name`, `role`) VALUES (NULL, ?, ?, ?, ?)',
-        [req.body.login, req.body.password, req.body.name, req.body.role],
+      connection.query('INSERT INTO `user` (`id`, `surname`,   `name`, `patronymic`, `number_phone`, `login`, `password`, `role`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)',
+        [req.body.surname, req.body.name, req.body.patronymic, req.body.number_phone, req.body.login, req.body.password, req.body.role],
         function () {
           console.log('Запрос на проверку существования созданной записи в БД');
           connection.query(`SELECT * FROM user WHERE login="${req.body.login}"`,
@@ -145,7 +145,7 @@ app.post("/api/registration", (req, res) => {
 })
 
 // Получение списка сотрудников
-app.get('/api/user', function (req, res) {
+app.get('/api/users', function (req, res) {
   try {
     connection.query('SELECT * FROM `user` WHERE role<>3', function (error, results) {
       if (error) {
@@ -177,12 +177,12 @@ app.delete("/api/user/:id", (req, res) => {
 })
 
 // Обработка добавления сотрудника
-app.post("/api/user", (req, res) => {
+app.post("/api/users", (req, res) => {
   if (!req.body) return res.sendStatus(400);
   console.log('Пришёл POST запрос для добавления сотрудника:');
   console.log(req.body);
-  connection.query(`INSERT INTO user (login, password, name, role) VALUES (?, ?, ?, ?);`,
-    [req.body.login, req.body.password, req.body.name, req.body.role],
+  connection.query('INSERT INTO user (surname, name, patronymic, number_phone, login, password, role) VALUES (?, ?, ?, ?, ?, ?, ?)',
+    [req.body.surname, req.body.name, req.body.patronymic, req.body.number_phone, req.body.login, req.body.password, req.body.role],
     function (err) {
       if (err) {
         res.status(500).send('Ошибка сервера при добавлении сотрудника')
@@ -235,8 +235,8 @@ app.post("/api/request", (req, res) => {
   if (!req.body) return res.sendStatus(400);
   console.log('Пришёл POST запрос для добавления заявки на обратный звонок:');
   console.log(req.body);
-  connection.query(`INSERT INTO requests (name, phone, id_call_request_status) VALUES (?, ?, ?);`,
-    [req.body.name, req.body.phone, 'принят в работу', 'не заполнено'],
+  connection.query("INSERT INTO `requests` (`name`, `phone`, `status`) VALUES (?, ?, ?);",
+    [req.body.name, req.body.phone, 'принят в работу'],
     function (err) {
       if (err) {
         res.status(500).send('Ошибка сервера при добавлении заявки на обратный звонок')
@@ -252,8 +252,8 @@ app.put("/api/requests/:id_request", (req, res) => {
   if (!req.body) return res.sendStatus(400);
   console.log('Пришёл POST запрос для добавления заявки на обратный звонок:');
   console.log(req.body);
-  connection.query(`UPDATE requests SET id_call_request_status=? WHERE id_request=?`,
-    [req.body.id_call_request_status, req.params.id_request],
+  connection.query(`UPDATE requests SET status=? WHERE id_request=?`,
+    [req.body.status, req.params.id_request],
     function (err) {
       if (err) {
         res.status(500).send('Ошибка сервера при добавлении заявки на обратный звонок')
@@ -323,8 +323,10 @@ app.post("/api/addService", (req, res) => {
   if (!req.body) return res.sendStatus(400);
   console.log('Пришёл POST запрос для создания карточки:');
   console.log(req.body);
-  connection.query(`INSERT INTO services (name, id_specialization, description, price, filename) VALUES (?, ?, ?, ?, ?);`,
-  [req.body.name, req.body.id_specialization, req.body.description, req.body.price, req.body.filename],
+
+
+  connection.query(`INSERT INTO services (namenovanie, price, id_object, id_repair_type, id_duration, filename) VALUES (?, ?, ?, ?, ?, ?);`,
+  [req.body.namenovanie, req.body.price, req.body.id_object, req.body.id_repair_type, req.body.id_duration, req.body.filename],
     function (err) {
       if (err) {
         res.status(500).send('Ошибка сервера при cоздании карточки')
@@ -340,7 +342,28 @@ app.post("/api/oneService", (req, res) => {
   if (!req.body) return res.sendStatus(400);
   console.log('Пришёл POST запрос для загрузки страницы об услуге:');
   console.log(req.body);
-  connection.query('SELECT * FROM services INNER JOIN specializations ON services.id_specialization=specializations.id_specialization WHERE id_service=?;',
+  connection.query('SELECT services.namenovanie AS naim_ser, services.filename, object.namenovanie AS naim_obj, duration.namenovanie AS naim_dur, repair_type.namenovanie AS naim_rep, services.price, repair_type.description FROM services INNER JOIN repair_type ON services.id_repair_type=repair_type.id_repair_type INNER JOIN duration ON services.id_duration = duration.id_duration INNER JOIN object ON services.id_object=object.id_object WHERE id_service=?;',
+
+  [req.body.id],
+    function (err, results) {
+      if (err) {
+        res.status(500).send('Ошибка сервера при поиске услуге по id ')
+        console.log(err);
+      }
+      console.log('Услуга найдена успешно');
+      console.log('Результаты:');
+      console.log(results);
+      res.json(results);
+    });
+})
+
+// Обработка получения информации об одном товаре
+app.post("/api/serviceOne", (req, res) => {
+  if (!req.body) return res.sendStatus(400);
+  console.log('Пришёл POST запрос для загрузки страницы об услуге:');
+  console.log(req.body);
+  connection.query('SELECT * FROM `services` WHERE id_service = ?;',
+
   [req.body.id],
     function (err, results) {
       if (err) {
@@ -358,7 +381,7 @@ app.post("/api/oneServiceRecord", (req, res) => {
   if (!req.body) return res.sendStatus(400);
   console.log('Пришёл POST запрос для загрузки страницы об услуге:');
   console.log(req.body);
-  connection.query('SELECT * FROM services INNER JOIN specializations ON services.id_specialization=specializations.id_specialization WHERE id_service=?;',
+  connection.query('SELECT * FROM services INNER JOIN repair_type ON services.id_repair_type=repair_type.id_repair_type WHERE id_service=?;',
   [req.body.id_service],
     function (err, results) {
       if (err) {
@@ -372,13 +395,13 @@ app.post("/api/oneServiceRecord", (req, res) => {
     });
 })
 
-// Обработка изменения информации о об одном товаре
+// Обработка изменения информации об одном товаре
 app.put('/api/services/:id_service', function (req, res) {
   console.log('PUT /', );
   console.log(req.body);
   try {
-    connection.query('UPDATE `services` SET `name` = ?, `description` = ?, `price` = ? WHERE id_service = ?',
-      [req.body.name, req.body.description, req.body.price, req.params.id_service],
+    connection.query('UPDATE `services` SET `namenovanie` = ?, `price` = ?, `id_object` = ?, `id_duration` = ?, `id_repair_type` = ?  WHERE id_service = ?',
+      [req.params.id_service, req.body.namenovanie, req.body.price, req.params.id_object, req.params.id_duration, req.params.id_repair_type],
       function (error) {
         if (error) {
           res.status(500).send('Ошибка сервера при изменении карточки услуги')
@@ -396,7 +419,7 @@ app.put('/api/services/:id_service', function (req, res) {
 // Получение списка мастеров
 app.get('/api/masters', function (req, res) {
   try {
-    connection.query('SELECT * FROM masters INNER JOIN specializations ON masters.id_specialization=specializations.id_specialization', function (error, results) {
+    connection.query('SELECT * FROM masters INNER JOIN repair_type ON masters.id_repair_type=repair_type.id_repair_type', function (error, results) {
       if (error) {
         res.status(500).send('Ошибка сервера при получении списка мастеров')
         console.log(error);
@@ -453,8 +476,8 @@ app.post("/api/masters", (req, res) => {
   if (!req.body) return res.sendStatus(400);
   console.log('Пришёл POST запрос для добавления мастера:');
   console.log(req.body);
-  connection.query(`INSERT INTO masters (fio, id_specialization, start_schedule, end_schedule) VALUES (?, ?, ?, ?);`,
-    [req.body.fio, req.body.id_specialization, req.body.start_schedule, req.body.end_schedule],
+  connection.query(`INSERT INTO masters (fio, id_repair_type, start_schedule, end_schedule) VALUES (?, ?, ?, ?);`,
+    [req.body.fio, req.body.id_repair_type, req.body.start_schedule, req.body.end_schedule],
     function (err) {
       if (err) {
         res.status(500).send('Ошибка сервера при добавлении мастера')
@@ -466,10 +489,10 @@ app.post("/api/masters", (req, res) => {
 })
 
 //------Запросы для работы с таблицей категорий услуг ------//
-// Получение списка всех категорий
-app.get('/api/specializations', function (req, res) {
+// Получение списка всех объектов
+app.get('/api/objects', function (req, res) {
   try {
-    connection.query('SELECT * FROM `specializations`', function (error, results) {
+    connection.query('SELECT * FROM `object`', function (error, results) {
       if (error) {
         res.status(500).send('Ошибка сервера при получении списка категорий')
         console.log(error);
@@ -483,14 +506,47 @@ app.get('/api/specializations', function (req, res) {
   }
 });
 
+// Получение списка вид работы для выпадающего списка в форме добавить услугу
+app.get('/api/repair_types', function (req, res) {
+  try {
+    connection.query('SELECT * FROM `repair_type`', function (error, results) {
+      if (error) {
+        res.status(500).send('Ошибка сервера при получении списка категорий')
+        console.log(error);
+      }
+      console.log('Результаты получения списка категорий');
+      console.log(results);
+      res.json(results);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// Получение списка всех продолжительности работ
+app.get('/api/durations', function (req, res) {
+  try {
+    connection.query('SELECT * FROM `duration`', function (error, results) {
+      if (error) {
+        res.status(500).send('Ошибка сервера при получении списка категорий')
+        console.log(error);
+      }
+      console.log('Результаты получения списка категорий');
+      console.log(results);
+      res.json(results);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
 // Обработка удаления категории
-app.delete("/api/specializations/:id_specialization", (req, res) => {
+app.delete("/api/objects/:id_object", (req, res) => {
   if (!req.body) return res.sendStatus(400);
   console.log('Пришёл DELETE запрос для удаления категории:');
-  connection.query(`DELETE FROM specializations WHERE id_specialization=${req.params.id_specialization}`,
+  connection.query(`DELETE FROM object WHERE id_object=${req.params.id_object}`,
     function (err) {
       if (err) {
-        res.status(500).send('Ошибка сервера при удалении мастера по id_specialization')
+        res.status(500).send('Ошибка сервера при удалении мастера по id_object')
         console.log(err);
       }
       console.log('Удаление прошло успешно');
@@ -498,13 +554,46 @@ app.delete("/api/specializations/:id_specialization", (req, res) => {
     });
 })
 
+// Обработка удаления категории
+app.delete("/api/repair_types/:id_repair_type", (req, res) => {
+  if (!req.body) return res.sendStatus(400);
+  console.log('Пришёл DELETE запрос для удаления категории:');
+  connection.query(`DELETE FROM repair_type WHERE id_repair_type=${req.params.id_repair_type}`,
+    function (err) {
+      if (err) {
+        res.status(500).send('Ошибка сервера при удалении мастера по id_repair_type')
+        console.log(err);
+      }
+      console.log('Удаление прошло успешно');
+      res.json("delete");
+    });
+})
+
+
+// Обработка удаления категории
+app.delete("/api/repair_types/:id_repair_type", (req, res) => {
+  if (!req.body) return res.sendStatus(400);
+  console.log('Пришёл DELETE запрос для удаления категории:');
+  connection.query(`DELETE FROM repair_type WHERE id_repair_type=${req.params.id_repair_type}`,
+    function (err) {
+      if (err) {
+        res.status(500).send('Ошибка сервера при удалении мастера по id_repair_type')
+        console.log(err);
+      }
+      console.log('Удаление прошло успешно');
+      res.json("delete");
+    });
+})
+
+
+
 // Обработка добавления категории
-app.post("/api/specializations", (req, res) => {
+app.post("/api/repair_types", (req, res) => {
   if (!req.body) return res.sendStatus(400);
   console.log('Пришёл POST запрос для добавления категории:');
   console.log(req.body);
-  connection.query(`INSERT INTO specializations (name_specialization) VALUES (?);`,
-    [req.body.name_specialization],
+  connection.query(`INSERT INTO repair_type (namenovanie, description) VALUES (?, ?);`,
+    [req.body.namenovanie, req.body.description],
     function (err) {
       if (err) {
         res.status(500).send('Ошибка сервера при добавлении категории')
@@ -515,13 +604,34 @@ app.post("/api/specializations", (req, res) => {
     });
 })
 
-// Обработка создания записи к мастеру
+// Обработка добавления объекта
+app.post("/api/object", (req, res) => {
+  if (!req.body) return res.sendStatus(400);
+  console.log('Пришёл POST запрос для добавления категории:');
+  console.log(req.body);
+  connection.query(`INSERT INTO object (namenovanie) VALUES (?);`,
+    [req.body.namenovanie],
+    function (err) {
+      if (err) {
+        res.status(500).send('Ошибка сервера при добавлении категории')
+        console.log(err);
+      }
+      console.log('Добавление категории прошло успешно');
+      res.json("create");
+    });
+})
+
+
+
+
+
+// Обработка создания оформить услугу
 app.post("/api/record", (req, res) => {
   if (!req.body) return res.sendStatus(400);
   console.log('Пришёл POST запрос для создания записи:');
   console.log(req.body);
-  connection.query(`INSERT INTO records (id_master, id_service, id, phone, date, time, price) VALUES (?, ?, ?, ?, ?, ?, ?);`,
-  [req.body.id_master, req.body.id_service, req.body.id, req.body.phone, req.body.date, req.body.time, req.body.price],
+  connection.query(`INSERT INTO record (phone, address, square, price, id_user, id_services) VALUES (?, ?, ?, ?, ?, ?);`,
+  [req.body.phone, req.body.address, req.body.square, req.body.price, req.body.id_user, req.body.id_services],
     function (err) {
       if (err) {
         res.status(500).send('Ошибка сервера при cоздании записи')
@@ -533,14 +643,14 @@ app.post("/api/record", (req, res) => {
 })
 
 // Получение мастеров по выбранной категории оказываемой услуги
-app.get('/api/masters/:id_specialization', function (req, res) {
+app.get('/api/repair_types/:id_repair_type', function (req, res) {
   try {
-    connection.query(`SELECT * FROM masters WHERE id_specialization=${req.params.id_specialization}`, function (error, results) {
+    connection.query(`SELECT * FROM masters WHERE id_repair_type=${req.params.id_repair_type}`, function (error, results) {
       if (error) {
-        res.status(500).send('Ошибка сервера при получении списка категорий')
+        res.status(500).send('Ошибка сервера при получении списка вида работы')
         console.log(error);
       }
-      console.log('Результаты получения списка категорий');
+      console.log('Результаты получения списка виды работы');
       console.log(results);
       res.json(results);
     });
@@ -549,12 +659,17 @@ app.get('/api/masters/:id_specialization', function (req, res) {
   }
 });
 
+
+
+
+
+
 // Обработка получения информации об одной записи
 app.post("/api/oneRecord", (req, res) => {
   if (!req.body) return res.sendStatus(400);
   console.log('Пришёл POST запрос для загрузки страницы об услуге:');
   console.log(req.body);
-  connection.query('SELECT * FROM records  WHERE id_record=?',
+  connection.query('SELECT * FROM record WHERE id_record=?',
   [req.body.id],
     function (err, results) {
       if (err) {
@@ -573,7 +688,7 @@ app.delete("/api/deleteRecord/:id_record", (req, res) => {
   if (!req.body) return res.sendStatus(400);
   console.log('Пришёл DELETE запрос для удаления карточки:');
   console.log(req.body);
-  connection.query(`DELETE FROM records WHERE id_record=${req.params.id_record}`,
+  connection.query(`DELETE FROM record WHERE id_record=${req.params.id_record}`,
     function (err) {
       if (err) {
         res.status(500).send('Ошибка сервера при удалении карточки по id')
@@ -587,7 +702,7 @@ app.delete("/api/deleteRecord/:id_record", (req, res) => {
 // Получение списка записей для администратора
 app.get('/api/records', function (req, res) {
   try {
-    connection.query('SELECT * FROM records INNER JOIN user ON records.id=user.id', function (error, results) {
+    connection.query('SELECT * FROM record', function (error, results) {
       if (error) {
         res.status(500).send('Ошибка сервера при получении списка мастеров')
         console.log(error);
@@ -604,7 +719,7 @@ app.get('/api/records', function (req, res) {
 // Получение списка всех записей по одному клиенту
 app.get('/api/records/:id_user', function (req, res) {
   try {
-    connection.query(`SELECT * FROM records WHERE id=${req.params.id_user}`, function (error, results) {
+    connection.query(`SELECT * FROM record WHERE id_user=${req.params.id_user}`, function (error, results) {
       if (error) {
         res.status(500).send('Ошибка сервера при получении списка мастеров')
         console.log(error);
@@ -679,7 +794,7 @@ app.post("/api/oneUser", (req, res) => {
   console.log('Пришёл POST запрос для загрузки страницы об услуге:');
   console.log(req.body);
   connection.query('SELECT * FROM user WHERE id=?',
-  [req.body.id],
+  [req.body.id_user],
     function (err, results) {
       if (err) {
         res.status(500).send('Ошибка сервера при поиске услуге по id ')
@@ -696,7 +811,7 @@ app.post("/api/oneUser", (req, res) => {
 //Обработка получения списка услуг с данными о записями
 app.get('/api/servicesRecords', function (req, res) {
   try {
-    connection.query('SELECT COUNT(id_service) AS id_service FROM records GROUP BY id_service', function (error, results) {
+    connection.query('SELECT services.namenovanie, COUNT(id_services) AS id_service FROM record INNER JOIN services ON record.id_services = services.id_service GROUP BY id_services', function (error, results) {
       if (error) {
         res.status(500).send('Ошибка сервера при получении названия товаров')
         console.log(error);

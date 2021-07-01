@@ -1,21 +1,19 @@
 // Модель класса Запись
 export class Record {
     public id_record: number;
-    public id_master: string;
-    public id_service: number;
-    public id: number;
     public phone: string;
-    public date: string;
-    public time: string;
+    public address: string;
+    public square: string;
     public price: string;
-    constructor(id_record:number, id_master:string, id_service:number, id:number, phone:string, date:string, time:string, price:string){
+    public id_user: string;
+    public id_services: string;
+        constructor(id_record:number, phone:string, address:string, square:string, price:string, id_user:string, id_services:string){
         this.id_record=id_record;
-        this.id_master=id_master;
-        this.id_service=id_service;
-        this.id=id;
         this.phone=phone;
-        this.date=date;
-        this.time=time;
+        this.address=address;
+        this.square=square;
         this.price=price;
+        this.id_user=id_user;
+        this.id_services=id_services;
     }
 }

@@ -13,7 +13,7 @@
       </li>
       <li>
         <a class="nav-link"
-          [routerLink]="['/catalog']">Прайс услуг</a>
+          [routerLink]="['/catalog']">Каталог услуг</a>
       </li>
       <!-- <li *ngIf="(!logOut) && (role=='Администратор')">
         <a class="nav-link" [routerLink]="['/list-user']">
@@ -36,7 +36,7 @@
         <a class="nav-link nav-role" *ngIf="!logOut" [routerLink]="['/profile']" >{{role}} {{name}}</a>
       </li>
       <li class="nav-item" *ngIf="!logOut">
-        <button class="btn btn-danger" (click)="onLogOut()">Авторизация</button>
+        <button class="btn btn-danger" (click)="onLogOut()">Выход</button>
       </li>
     </ul>
   </div>

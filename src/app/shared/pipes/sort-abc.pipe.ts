@@ -12,9 +12,9 @@ export class SortAbcPipe implements PipeTransform {
         if(!isNullOrUndefined(requests) && (sort || '').trim() !== "") {
             if (sort == "1") {
                 let sort_requests = requests.sort((a: any, b: any) => {
-                    if (a.fio < b.fio) {
+                    if (a.name < b.name) {
                         return -1;
-                      } else if (a.fio > b.fio) {
+                      } else if (a.name > b.name) {
                         return 1;
                       } else {
                         return 0;
@@ -24,9 +24,9 @@ export class SortAbcPipe implements PipeTransform {
                 return sort_requests;
             } else if (sort == "2") {
                 let sort_requests = requests.sort((a: any, b: any) => {
-                    if (a.fio > b.fio) {
+                    if (a.name > b.name) {
                         return -1;
-                      } else if (a.fio < b.fio) {
+                      } else if (a.name < b.name) {
                         return 1;
                       } else {
                         return 0;

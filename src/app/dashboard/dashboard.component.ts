@@ -38,7 +38,7 @@ export class DashboardComponent implements OnInit {
         }
         console.log(this.masters);
        return this.masters;
-     } 
+     }
    } catch (error) {
      console.log(error);
    }
@@ -60,7 +60,7 @@ export class DashboardComponent implements OnInit {
           }
           // console.log(this.master_records);
         return this.master_records;
-      } 
+      }
     } catch (error) {
       console.log(error);
     }
@@ -72,7 +72,7 @@ export class DashboardComponent implements OnInit {
   async onGetAllService() {
     // Получение списка всех товаров,  имеющихся в БД
    try {
-     let result = await this.mainService.get("/services");
+     let result = await this.mainService.get("/servicesRecords");
      if (Object.keys(result).length == 0) {
        console.log("пусто");
        result = undefined;
@@ -81,11 +81,11 @@ export class DashboardComponent implements OnInit {
        let i;
        this.services;
        for (i in result) {
-          this.services[i] = result[i].name;
+          this.services[i] = result[i].namenovanie;
         }
         // console.log(this.services);
        return this.services;
-     } 
+     }
    } catch (error) {
      console.log(error);
    }
@@ -107,7 +107,7 @@ export class DashboardComponent implements OnInit {
           }
           // console.log(this.records);
         return this.records;
-      } 
+      }
     } catch (error) {
       console.log(error);
     }
@@ -189,7 +189,8 @@ export class DashboardComponent implements OnInit {
       scales: {
         yAxes: [{
             ticks: {
-                beginAtZero: true
+                beginAtZero: true,
+                stepSize : 1,
             }
         }]
       },

@@ -18,9 +18,9 @@ export class ServiceComponent implements OnInit {
   @Input() service;
   @Output() del = new EventEmitter<number>();
   srcPhoto = environment.baseUrl + '/api/photo/';
-  
+
   constructor(private router: Router, private mainService: MainService) {}
-  
+
   async ngOnInit() {
     console.log(this.srcPhoto);
     if (this.service == undefined) {
@@ -57,7 +57,7 @@ export class ServiceComponent implements OnInit {
   }
 
   // Функция, которая переводит на страницу записи на услугу
-  onLinkRecordService(id_service, id_specialization) {
+  onLinkRecordService(id_service) {
     this.router.navigate(["/record-master", id_service]);
   }
 

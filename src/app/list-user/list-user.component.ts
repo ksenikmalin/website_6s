@@ -30,10 +30,13 @@ export class ListUserComponent implements OnInit {
           this.users.push(
             new User(
               result[one].id,
-              name,
-              role,
+              result[one].surname,
+              result[one].name,
+              result[one].patronymic,
+              result[one].number_phone,
               result[one].login,
-              result[one].password
+              result[one].password,
+              role,
             )
           );
         }
@@ -46,7 +49,7 @@ export class ListUserComponent implements OnInit {
 
   async onDelete(id) {
     try {
-      let result = await this.mainService.delete(`/users/${id}`);
+      let result = await this.mainService.delete(`/user/${id}`);
     } catch (error) {
       console.log(error);
     }

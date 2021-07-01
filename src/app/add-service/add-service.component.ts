@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MainService } from '../shared/services/main.service';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
-import { Specialization } from '../shared/models/specialization.model';
+import { RepairType } from '../shared/models/repair_type.model';
+import { ObjectFlat } from '../shared/models/object.model';
+import { Duration } from '../shared/models/duration.model';
 import {environment} from '../../environments/environment';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-add-service',
@@ -29,30 +33,74 @@ export class AddServiceComponent implements OnInit {
   form: FormGroup;
   // Логическая переменная, определяющая наличие или отсутсвие прелоадера
   loading=false;
-  // Логическая переменная, определяющая наличие или отсутсвие сообщения о незаполненных обязательных полях 
+  // Логическая переменная, определяющая наличие или отсутсвие сообщения о незаполненных обязательных полях
   isEmpty=true;
   // Логическая переменная, определяющая наличие или отсутсвие сообщения об успешном добавлении товара
   succes=false;
-  specializations: Specialization[] = [];
-  name_specialization;
-  
-  constructor(private mainService: MainService) { }
+  repair_types: RepairType[] = [];
+  id_repair_type;
+
+
+  objects: ObjectFlat[] = [];
+id_object;
+
+  durations: Duration[] = [];
+id_duration;
+
+  constructor(private mainService: MainService, private router: Router) { }
 
   async ngOnInit() {
     this.loading = true;
     try {
-      let result = await this.mainService.get("/specializations");
+      let result = await this.mainService.get("/repair_types");
       if (typeof result !== "undefined") {
         console.log(result);
         for (const one in result) {
-          this.specializations.push(
-            new Specialization(
-              result[one].id_specialization,
-              result[one].name_specialization
+          this.repair_types.push(
+            new RepairType(
+              result[one].id_repair_type,
+              result[one].namenovanie,
+              result[one].description
             )
           );
         }
-        this.name_specialization = result[0].id_specialization;
+        this.id_repair_type = result[0].id_repair_type;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+    try {
+      let result = await this.mainService.get("/objects");
+      if (typeof result !== "undefined") {
+        console.log(result);
+        for (const one in result) {
+          this.objects.push(
+            new ObjectFlat(
+              result[one].id_object,
+              result[one].namenovanie
+            )
+          );
+        }
+        this.id_object = result[0].id_object;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+    try {
+      let result = await this.mainService.get("/durations");
+      if (typeof result !== "undefined") {
+        console.log(result);
+        for (const one in result) {
+          this.durations.push(
+            new Duration(
+              result[one].id_duration,
+              result[one].namenovanie
+            )
+          );
+        }
+        this.id_duration= result[0].id_duration;
       }
     } catch (error) {
       console.log(error);
@@ -60,39 +108,44 @@ export class AddServiceComponent implements OnInit {
     this.loading = false;
     // Инициализация FormGroup, создание FormControl, и назанчение Validators
     this.form = new FormGroup({
-      'name': new FormControl('', [Validators.required]),
-      'id_specialization': new FormControl('', [Validators.required]),
-      'description': new FormControl('', [Validators.required]),
+      'namenovanie': new FormControl('', [Validators.required]),
       'price': new FormControl('', [Validators.required]),
+      'id_object': new FormControl('', [Validators.required]),
+      'id_duration': new FormControl('', [Validators.required]),
+      'id_repair_type': new FormControl('', [Validators.required]),
+
+
       // 'photo': new FormControl('', [Validators.required]),
       })
   }
 
   // Функция добавления информации о товаре, полученной с формы, в базу данных
-  async onAddService(){   
-    if ((this.form.value.name=="")||(this.form.value.id_specialization=="")||(this.form.value.description=="")||(this.form.value.price=="")||(this.filename=="")) {
+  async onAddService(){
+    if ((this.form.value.name=="")||(this.form.value.	id_service=="")||(this.form.value.namenovanie=="")||(this.form.value.price=="")|| (this.form.value.id_object=="")|| (this.form.value.id_duration=="")|| (this.form.value.id_repair_type=="")|| (this.filename=="")) {
       this.isEmpty=false;
     } else {
       this.loading=true;
       this.isEmpty=true;
       let service = {
-        name: this.form.value.name,
-        id_specialization: this.form.value.id_specialization,
-        description: this.form.value.description,
-        price: this.form.value.price,
-        filename: this.filename,
+      namenovanie: this.form.value.namenovanie,
+      price: this.form.value.price,
+      id_object: this.form.value.id_object,
+      id_duration: this.form.value.id_duration,
+      id_repair_type: this.form.value.id_repair_type,
+      filename: this.filename,
       }
       console.log(service);
       this.filename = "";
       try {
         let result = await this.mainService.post(JSON.stringify(service), "/addService");
+        this.router.navigate(["/catalog"]);
       } catch (err) {
         console.log(err);
       }
       this.form.reset();
       this.loading=false;
       this.succes=true;
-    }   
+    }
   }
 // Функция, скрывающая сообщения о незаполненности полей и успешном добавлении товара (вызвается при фокусировке на одном из полей формы)
   onSucces(){

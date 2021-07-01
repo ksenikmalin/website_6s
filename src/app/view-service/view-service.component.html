@@ -12,33 +12,66 @@
         <div class="d-flex flex-column col-lg-6 col-xl-6">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <h3 class="mb-3">Наименование услуги: {{service.name}}</h3>
-                    <h6 class="mb-3">Тип услуги: {{service.name_specialization}}</h6>
+                    <h3 class="mb-3">Наименование услуги: {{service.naim_ser}}</h3>
+                    <h6 class="mb-2 text-secondary font-weight-normal">Вид работы: {{service.naim_rep}}</h6>
+                    <h6 class="mb-2 text-secondary font-weight-normal">Объект: {{service.naim_obj}}</h6>
+                    <h6 class="mb-2 text-secondary font-weight-normal">Продолжительность: {{service.naim_dur}} дней</h6>
                 </div>
                 </div>
                 <div *ngIf="editOrNot; else anotherblock" >
                     <div class="col-8 d-flex flex-column p-0">
                     <p class="mb-2 text-secondary font-weight-normal">Описание услуги: {{service.description}}</p>
-                    <h4 class="my-line mb-2 text-success">Цена: {{service.price}} рублей</h4>
+                    <h4 class="my-line mb-2 text-success">Цена: {{service.price}} руб. кв/м</h4>
                 </div>
                 <div class="col-4 d-flex flex-column p-0" *ngIf="!hide2">
-                    <button class="btn btn-info mb-2" (click)="onChangeService()">Изменить</button>
+                    <button class="btn btn-warning mb-2" (click)="onChangeService()">Изменить</button>
                     <button class="btn btn-danger btn-danger" (click)="onDeleteService()">Удалить</button>
                 </div>
             </div>
             <ng-template #anotherblock >
-                <form [formGroup]="formService">
+                <form [formGroup]="formService" #myForm="ngForm" (ngSubmit)="onChangeService()">
                     <div class="col-8 d-flex flex-column p-0">
-                        <label for="name">Наименование услуги: </label>
-                        <input formControlName="name" type="text" class="form-control my-line" id="name">
-                        <label for="description">Описание услуги: </label>
-                        <input formControlName="description" type="text" class="form-control my-line" id="description">
-                        <label for="price">Цена: </label>  
-                        <input formControlName="price" type="text" class="form-control mb-2 my-line" id="price">  
+                        <label for="namenovanie">Наименование услуги: </label>
+                        <input formControlName="namenovanie" type="text" class="form-control my-line" id="namenovanie">
+
+                        <div class="form-group">
+                          <label for="text">Вид работы</label>
+                          <select class="form-control" formControlName="id_repair_type" [(ngModel)]="id_repair_type">
+                            <option *ngFor="let repair_type of repair_types" [ngValue]="repair_type.id_repair_type">
+                             {{ repair_type.namenovanie }}
+                            </option>
+                          </select>
+                         </div>
+
+                         <div class="form-group">
+                          <label for="text">Объект</label>
+                          <select class="form-control" formControlName="id_object" [(ngModel)]="id_object">
+                            <option *ngFor="let object of objects" [ngValue]="object.id_object">
+                             {{ object.namenovanie }}
+                            </option>
+                          </select>
+                         </div>
+
+
+                        <div class="form-group">
+                          <label for="text">Продолжительность</label>
+                          <select class="form-control" formControlName="id_duration" [(ngModel)]="id_duration">
+                            <option *ngFor="let duration of durations" [ngValue]="duration.id_duration">
+                             {{ duration.namenovanie }}
+                            </option>
+                          </select>
+                         </div>
+
+
+
+                        <label for="price">Цена: </label>
+                        <input formControlName="price" type="text" class="form-control mb-2 my-line" id="price">
+
+                        <button type="submit" class="btn btn-success mb-2" (click)="onChangeService()">Сохранить</button>
                     </div>
                     <div class="col-4 d-flex flex-column p-0" *ngIf="!hide2">
-                        <button class="btn btn-success mb-2" (click)="onChangeService()">Сохранить</button>
-                        <button class="btn btn-danger btn-danger" disabled>Удалить</button>
+
+                        <!-- <button class="btn btn-danger btn-danger" disabled>Удалить</button> -->
                     </div>
                 </form>
             </ng-template>

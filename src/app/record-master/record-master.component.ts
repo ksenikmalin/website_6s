@@ -22,33 +22,35 @@ export class RecordMasterComponent implements OnInit {
   times: Time[] = [];
   record = {
     id_record: "",
-    id_master: 0,
-    id_service: 0,
-    id: "",
     phone: "",
-    date: "",
-    time: "",
-    price: ""
+    address: "",
+    square: "",
+    price: "",
+    id_user: "",
+    id_services: ""
   };
 
+  price = 0;
   item = {
     id: 0,
   };
 
   service: any = {
     id_service: "",
-    name: "",
-    name_specialization: "",
-    description: "",
+    namenovanie: "",
     price: "",
+    id_object: "",
+    id_duration: "",
+    id_repair_type: "",
     filename: "",
+
   };
 
   res;
   name_master;
   name_time;
 
-  constructor(    
+  constructor(
     private router: Router,
     private activateRouter: ActivatedRoute,
     private mainService: MainService
@@ -57,14 +59,17 @@ export class RecordMasterComponent implements OnInit {
       this.item.id = +param.id_service;
     });
 
-    // Инициализация FormGroup, создание FormControl, и назанчение Validators
-    this.recordFrom = new FormGroup({
-      id_master: new FormControl("", [Validators.required]),
-      phone: new FormControl("", [Validators.required]),
-    });
+    // Инициализация recordFromGroup, создание recordFromControl, и назанчение Validators
+
   }
 
   async ngOnInit() {
+    this.recordFrom = new FormGroup({
+      phone: new FormControl("", [Validators.required]),
+      address: new FormControl("", [Validators.required]),
+      square: new FormControl("", [Validators.required]),
+      });
+
     // Отправка на сервер запроса для получения карточки товара по id
     try {
       this.res = await this.mainService.post(
@@ -76,51 +81,62 @@ export class RecordMasterComponent implements OnInit {
     }
     this.service = this.res[0];
     console.log(this.service);
-    try {
-      let result = await this.mainService.get(`/masters/${this.service.id_specialization}`);
-      if (typeof result !== "undefined") {
-        console.log(result);
-        for (const one in result) {
-          this.masters.push(
-            new Master(
-              result[one].id_master,
-              result[one].fio,
-              result[one].name_specialization,
-              result[one].start_schedule,
-              result[one].end_schedule,
-              result[one].id_specialization,
-            )
-          );
-        }
-        this.name_master = result[0].id_master;
-      }
-    } catch (error) {
-      console.log(error);
-    }
-    this.record.id = localStorage.getItem("id");
-    this.record.id_service = this.item.id;
-    console.log(this.record);
   }
+    async onRecord (){
+    if (this.recordFrom.value.login == "" || this.recordFrom.value.surname == "" || this.recordFrom.value.name == "" || this.recordFrom.value.patronymic == "" || this.recordFrom.value.number_phone == "" || this.recordFrom.value.password == "") {
+      this.isEmpty = false;
+    } else {
+      this.isEmpty = true;
+      let infoAboutUser;
+      infoAboutUser = {
+        phone: this.recordFrom.value.phone,
+        address: this.recordFrom.value.address,
+        square: this.recordFrom.value.square,
+        price: this.price,
+        id_user: +localStorage.getItem('id'),
+        id_services: this.item.id
+
+
+      };
+      console.log(infoAboutUser);
+      try {
+        let ExistOrNot = await this.mainService.post(JSON.stringify(infoAboutUser), "/record");
+        this.recordFrom.reset();
+        if (ExistOrNot != "exist") {
+          console.log(ExistOrNot);
+          this.record.id_record = ExistOrNot[0].id_record;
+          this.record.phone = ExistOrNot[0].phone;
+          this.record.address = ExistOrNot[0].address;
+          this.record.square = ExistOrNot[0].square;
+          this.record.price = ExistOrNot[0].price;
+          this.record.id_user = ExistOrNot[0].id_user;
+          this.record.id_services = ExistOrNot[0].id_services;
+
+          console.log(this.record);
+          this.router.navigate(["/profile"]);
+        } else {
+
+          console.log("Логин уже существует");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+ }
 
   public mask = ['(', /[0-9]/, /[0-9]/, /[0-9]/, ')', ' ', /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/];
 
-  // Функция, которая переводит на страницу записи на услугу
-  onLinkRecordDate() {
-    this.record.id_master = this.recordFrom.value.id_master
 
-    this.router.navigate(["record-date/record"],  { queryParams: {
-      id_master: this.record.id_master,
-      id_service: this.record.id_service, 
-      id: this.record.id,
-      phone: this.recordFrom.value.phone, 
-      price: this.service.price }
-    });
-  }
-  
   // Функция, скрывающая сообщения о незаполненности полей и успешном добавлении товара (вызвается при фокусировке на одном из полей формы)
   onSuccess() {
     this.succes = false;
     this.isEmpty = true;
   }
+
+  Total() {
+    this.price = parseInt(this.service.price) * this.recordFrom.value.square;
+    return this.price;
+  }
+
 
 }

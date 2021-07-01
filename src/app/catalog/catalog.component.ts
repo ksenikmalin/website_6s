@@ -40,10 +40,11 @@ export class CatalogComponent implements OnInit {
          this.services.push(
            new Service(
              result[one].id_service,
-             result[one].name,
-             result[one].name_specialization,
-             result[one].description,
+             result[one].namenovanie,
              result[one].price,
+             result[one].id_object,
+             result[one].id_duration,
+             result[one].id_repair_type,
              result[one].filename
            )
          );
@@ -56,7 +57,7 @@ export class CatalogComponent implements OnInit {
    }
    this.loading = false;
  }
- 
+
  // Хук жизненного цикла по изменению
  // Проверяет наличие в LocalStorage элемента роли, чтобы понять авторизирован пользователь или нет
  ngDoCheck() {

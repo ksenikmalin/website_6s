@@ -32,7 +32,7 @@
 .btn-log:hover {
   background-color: rgb(253, 253, 253) !important;
   border: 1px solid rgb(255, 255, 255);
-  color: rgb(255, 80, 11);
+  color: rgb(185, 120, 66);
 }
 
 .btn-log:focus {

@@ -5,26 +5,27 @@ class="container d-flex justify-content-center align-content-center">
     </div>
 </div>
 <div *ngIf="!loading" class="container">
-    <h2 class="mb-5 mt-5">Cписок категорий оказываемых услуг</h2>
+    <h2 class="mb-5 mt-5">Cписок оказываемых видов работ</h2>
     <div class="row">
         <div class="col-3">
-            <a class="btn btn-success btn-block" [routerLink]="['/add-type-specialization']">Добавить категорию</a>
+            <a class="btn btn-success btn-block" [routerLink]="['/add-type-specialization']">Добавить вид работы</a>
         </div>
     </div>
 
     <div class="wrap-for-table table-responsive-xl table-responsive-lg table-responsive-md">
         <table class="table mt-5">
         <tr>
-            <th>Наименование категории</th>
-            <th>Действие</th>
+            <th>Наименование</th>
+            <th>Описание</th>
         </tr>
-        <tr *ngFor="let specialization of specializations">
-            <td>{{specialization.name_specialization}}</td>
+        <tr *ngFor="let repair_type of repair_types">
+            <td>{{repair_type.namenovanie}}</td>
+            <td>{{repair_type.description}}</td>
             <td>
-            <button type="button" class=" btn-sm btn btn-danger" (click)="onDeleteSpecialization(specialization.id_specialization)">Удалить</button>
+            <button type="button" class=" btn-sm btn btn-danger" (click)="onDeleteRepairType(repair_type.id_repair_type)">Удалить</button>
             </td>
         </tr>
         </table>
     </div>
-    
+
 </div>

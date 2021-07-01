@@ -16,10 +16,13 @@ export class RegistrationComponent implements OnInit {
   form: FormGroup;
   user = {
     id: "",
+    surname: "",
+    name: "",
+    patronymic: "",
+    number_phone: "",
     login: "",
     password: "",
-    name: "",
-    role: "",
+    role: ""
   };
 
   constructor(private api: MainService, private router: Router) {}
@@ -27,16 +30,19 @@ export class RegistrationComponent implements OnInit {
   ngOnInit() {
     // Инициализация FormGroup, создание FormControl, и назанчение Validators
     this.form = new FormGroup({
+      surname: new FormControl("", [Validators.required]),
       name: new FormControl("", [Validators.required]),
+      patronymic: new FormControl("", [Validators.required]),
+      number_phone: new FormControl("", [Validators.required]),
       login: new FormControl("", [Validators.required]),
       password: new FormControl("", [Validators.required]),
     });
   }
-
+  public mask = ['(', /[0-9]/, /[0-9]/, /[0-9]/, ')', ' ', /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/];
   // Функция входа, отправляющая данные, полученные с формы на сервер, и реагирующая на ответ с сервера
   async onRegistr() {
     localStorage.clear();
-    if (this.form.value.login == "" || this.form.value.name == "" || this.form.value.password == "") {
+    if (this.form.value.login == "" || this.form.value.surname == "" || this.form.value.name == "" || this.form.value.patronymic == "" || this.form.value.number_phone == "" || this.form.value.password == "") {
       this.isEmpty = false;
     } else {
       this.isEmpty = true;
@@ -44,7 +50,10 @@ export class RegistrationComponent implements OnInit {
       infoAboutUser = {
         login: this.form.value.login,
         password: this.form.value.password,
+        surname: this.form.value.surname,
         name: this.form.value.name,
+        patronymic: this.form.value.patronymic,
+        number_phone: this.form.value.number_phone,
         role: "3"
       };
       console.log(infoAboutUser);
@@ -56,12 +65,20 @@ export class RegistrationComponent implements OnInit {
           this.user.id = ExistOrNot[0].id;
           this.user.login = ExistOrNot[0].login;
           this.user.password = ExistOrNot[0].password;
+          this.user.surname = ExistOrNot[0].surname;
           this.user.name = ExistOrNot[0].name;
+          this.user.patronymic = ExistOrNot[0].patronymic;
+          this.user.number_phone = ExistOrNot[0].number_phone;
           this.user.role = ExistOrNot[0].role;
+
           console.log(this.user);
           localStorage.setItem("role", this.user.role);
           localStorage.setItem("id", this.user.id);
-          localStorage.setItem("name", this.user.name);
+          localStorage.setItem('surname', this.user.surname);
+          localStorage.setItem('name', this.user.name);
+          localStorage.setItem('patronymic', this.user.patronymic);
+          localStorage.setItem('number_phone', this.user.number_phone);
+
           this.router.navigate(["/profile"]);
         } else {
           this.existLogin = false;

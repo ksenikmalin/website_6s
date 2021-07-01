@@ -60,16 +60,16 @@ export class ViewRequestComponent implements OnInit {
   }
 
   // Оправляет запрос изменения информации в заявку на сервер или включает режим редактирования
-  async onChangeRequest(request, status, purpose) {
-    this.onRequestInfoOne(request);
+  async onChangeRequest(request, status) {
+   // this.onRequestInfoOne(request);
     if (!this.editOrNot) {
       let newRequest = new Request(
         request.id_request,
-        request.fio,
+        request.name,
         request.phone,
-        status,
-        purpose
+        status
       );
+
       console.log(newRequest);
       try {
         let res = await this.mainService.put(
@@ -79,8 +79,7 @@ export class ViewRequestComponent implements OnInit {
       } catch (error) {
         console.log(error);
       }
-      request.status = status;
-      request.purpose = purpose;
+      request.status = status; /*FIX ME */
     }
     this.editOrNot = !this.editOrNot;
   }

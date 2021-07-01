@@ -9,7 +9,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./record-time.component.css']
 })
 export class RecordTimeComponent implements OnInit {
-  
+
   // Логическая переменная, определяющая наличие или отсутсвие сообщения о незаполненных обязательных полях
   isEmpty = true;
   // Логическая переменная, определяющая наличие или отсутсвие сообщения об успешном добавлении заявки на обратный звонок
@@ -18,14 +18,13 @@ export class RecordTimeComponent implements OnInit {
   name_time = 9;
 
   record = {
-    id_record: null,
-    id_master: null,
-    id_service: null,
-    id: null,
-    phone: 0,
+    phone: null,
+    address: null,
+    square: null,
+    price: null,
     date: null,
-    time: null,
-    price: null
+    id_user: null,
+    id_services: null
   };
 
   service: any = {
@@ -38,9 +37,9 @@ export class RecordTimeComponent implements OnInit {
   };
 
   recordFrom: FormGroup;
-  
+
   master: any = {
-    id_master: null, 
+    id_master: null,
     fio: null,
     name_specializaion: null,
     start_schedule: null,
@@ -52,29 +51,33 @@ export class RecordTimeComponent implements OnInit {
   res;
   convertedDate;
 
-  constructor(    
+  constructor(
     private router: Router,
     private activateRouter: ActivatedRoute,
     private mainService: MainService
   ) {
     this.activateRouter.queryParams.subscribe((queryParams) => {
-      this.record.id_master = +queryParams.id_master;
-      this.record.id_service = +queryParams.id_service;
-      this.record.id = +queryParams.id;      
-      this.record.phone = queryParams.phone;
-      this.record.price = +queryParams.price;
-      this.record.date = queryParams.date;      
+      this.record.phone = +queryParams.phone;
+      this.record.address = +queryParams.address;
+      this.record.square = +queryParams.square;
+      this.record.price = queryParams.price;
+      this.record.id_user = +queryParams.id_user;
+      this.record.id_services = queryParams.id_services;
+
+
     });
     console.log(this.record);
-    
+
     // Инициализация FormGroup, создание FormControl, и назанчение Validators
     this.recordFrom = new FormGroup({
-      time: new FormControl("", [Validators.required])
+      phone: new FormControl("", [Validators.required]),
+      address: new FormControl("", [Validators.required]),
+      square: new FormControl("", [Validators.required])
     });
   }
 
   async ngOnInit() {
-    // Отправка на сервер запроса для получения карточки товара по id    
+    // Отправка на сервер запроса для получения карточки товара по id
     try {
       this.res = await this.mainService.post(
         JSON.stringify(this.record),
@@ -86,7 +89,7 @@ export class RecordTimeComponent implements OnInit {
     this.master = this.res[0];
     console.log(this.master);
 
-    // Отправка на сервер запроса для получения карточки товара по id    
+    // Отправка на сервер запроса для получения карточки товара по id
     try {
       this.res = await this.mainService.post(
         JSON.stringify(this.record),
@@ -101,11 +104,17 @@ export class RecordTimeComponent implements OnInit {
 
   // Функция добавления информации о товаре, полученной с формы, в базу данных
   async onAddRecord() {
-    if (this.recordFrom.value.time == "") {
+    if (this.recordFrom.value.phone == "", this.recordFrom.value.address == "", this.recordFrom.value.price == "", this.recordFrom.value.id_user == "",  this.recordFrom.value.id_services == "") {
       this.isEmpty = false;
     } else {
       this.isEmpty = true;
-      this.record.time = this.recordFrom.value.time;
+      this.record.phone = this.recordFrom.value.phone;
+      this.record.address = this.recordFrom.value.address;
+      this.record.square = this.recordFrom.value.square;
+      this.record.price = this.recordFrom.value.price;
+      this.record.id_user = this.recordFrom.value.id_user;
+      this.record.id_services = this.recordFrom.value.id_services;
+
       console.log(this.record);
       try {
         let result = await this.mainService.post(

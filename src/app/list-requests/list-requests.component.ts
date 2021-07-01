@@ -35,10 +35,9 @@ export class ListRequestsComponent implements OnInit {
           this.requests.push(
             new Request(
               result[one].id_request,
-              result[one].fio,
+              result[one].name,
               result[one].phone,
-              result[one].status,
-              result[one].purpose
+              result[one].status
             )
           );
         }

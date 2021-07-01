@@ -1,16 +1,23 @@
 <div class="container mt-5">
-    <h2 class="mb-3 ">Создание новой категории</h2>
-    <h5 *ngIf="success" class="alert alert-success" role="alert">Новая категория успешно добавлена!</h5>
+    <h2 class="mb-3 ">Создание нового вида работы</h2>
+    <h5 *ngIf="success" class="alert alert-success" role="alert">Новый вид работы успешно добавлен!</h5>
     <div class="row d-flex justify-content-center">
         <div class="form-group">
-            <form [formGroup]="specializationForm" >
-                <label for="specialization">Введите наименование новой категории</label>
+            <form [formGroup]="repairTypeForm" >
+
                 <div class="row">
+                  <label for="repair_type">Введите наименование вида работы</label>
                     <div class="col-9">
-                        <input (focus)="onSuccess()" type="text" formControlName="name_specialization" class="form-control mb-3" id="specialization" placeholder="Новая категория" required>
+                        <input (focus)="onSuccess()" type="text" formControlName="namenovanie" class="form-control mb-3" id="namenovanie" placeholder="... ремонт" required>
                     </div>
+
+                    <label for="repair_type">Введите описание работы</label>
+                    <div class="col-9">
+                        <input (focus)="onSuccess()" type="text" formControlName="description" class="form-control mb-3" id="description" placeholder="Текст" required>
+                    </div>
+
                     <div class="col-3">
-                        <button (click)="onAddSpecialization()" type="submit" class="btn btn-success">Добавить</button>
+                        <button (click)="onAddRepairType ()" type="submit" class="btn btn-success">Добавить</button>
                     </div>
                 </div>
             </form>
