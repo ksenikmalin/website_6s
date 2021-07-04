@@ -35,7 +35,7 @@
                         <input formControlName="namenovanie" type="text" class="form-control my-line" id="namenovanie">
 
                         <div class="form-group">
-                          <label for="text">Вид работы</label>
+                          <label for="text">Вид работы: </label>
                           <select class="form-control" formControlName="id_repair_type" [(ngModel)]="id_repair_type">
                             <option *ngFor="let repair_type of repair_types" [ngValue]="repair_type.id_repair_type">
                              {{ repair_type.namenovanie }}
@@ -44,7 +44,7 @@
                          </div>
 
                          <div class="form-group">
-                          <label for="text">Объект</label>
+                          <label for="text">Объект: </label>
                           <select class="form-control" formControlName="id_object" [(ngModel)]="id_object">
                             <option *ngFor="let object of objects" [ngValue]="object.id_object">
                              {{ object.namenovanie }}
@@ -54,7 +54,7 @@
 
 
                         <div class="form-group">
-                          <label for="text">Продолжительность</label>
+                          <label for="text">Продолжительность: </label>
                           <select class="form-control" formControlName="id_duration" [(ngModel)]="id_duration">
                             <option *ngFor="let duration of durations" [ngValue]="duration.id_duration">
                              {{ duration.namenovanie }}
