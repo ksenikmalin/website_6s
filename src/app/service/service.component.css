@@ -12,3 +12,7 @@
 .btn-beauty:focus {
     box-shadow: 0 0 0 0.2rem rgba(122, 226, 145, 0.384);
 }
+
+p{
+  font-size: 16px;
+}

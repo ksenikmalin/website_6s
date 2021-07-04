@@ -357,6 +357,26 @@ app.post("/api/oneService", (req, res) => {
     });
 })
 
+
+
+
+//Обработка получения списка услуг
+app.get('/api/allServices', function (req, res) {
+  try {
+    connection.query('SELECT services.id_service, services.namenovanie AS naim_ser, services.filename, object.namenovanie AS naim_obj, duration.namenovanie AS naim_dur, repair_type.namenovanie AS naim_rep, services.price, repair_type.description FROM services INNER JOIN repair_type ON services.id_repair_type=repair_type.id_repair_type INNER JOIN duration ON services.id_duration = duration.id_duration INNER JOIN object ON services.id_object=object.id_object;', function (error, results) {
+      if (error) {
+        res.status(500).send('Ошибка сервера при получении названия товаров')
+        console.log(error);
+      }
+      console.log('Результаты получения товаров');
+      console.log(results);
+      res.json(results);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 // Обработка получения информации об одном товаре
 app.post("/api/serviceOne", (req, res) => {
   if (!req.body) return res.sendStatus(400);

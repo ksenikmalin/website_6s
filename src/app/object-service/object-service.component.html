@@ -20,7 +20,7 @@ class="container d-flex justify-content-center align-content-center">
         <tr *ngFor="let object of objects">
             <td>{{object.namenovanie}}</td>
             <td>
-            <button type="button" class=" btn-sm btn btn-danger" (click)="onDeleteObject(object.id_object)">Удалить</button>
+            <button type="button" class=" btn-sm btn btn-danger" style="background-color: firebrick;" (click)="onDeleteObject(object.id_object)">Удалить</button>
             </td>
         </tr>
         </table>

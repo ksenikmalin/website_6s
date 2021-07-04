@@ -28,7 +28,7 @@ export class CatalogComponent implements OnInit {
    // Получение списка всех услуг,  имеющихся в БД
    this.loading = true;
    try {
-     let result = await this.mainService.get("/services");
+     let result = await this.mainService.get("/allServices");
      if (Object.keys(result).length == 0) {
        console.log("пусто");
        result = undefined;
@@ -40,11 +40,11 @@ export class CatalogComponent implements OnInit {
          this.services.push(
            new Service(
              result[one].id_service,
-             result[one].namenovanie,
+             result[one].naim_ser,
              result[one].price,
-             result[one].id_object,
-             result[one].id_duration,
-             result[one].id_repair_type,
+             result[one].naim_obj,
+             result[one].naim_dur,
+             result[one].naim_rep,
              result[one].filename
            )
          );

@@ -1,19 +1,13 @@
-# Сайт для записи в салон красоты
+# Сайт для агентсва по ремонту квартир
 
 ## Ссылка на проект на fit.mospolytech.ru:
-http://beauty.std-709.ist.mospolytech.ru/
 
 ## Ссылка на лендинг проектв на fit.mospolytech.ru:
-http://about-beauty.std-709.ist.mospolytech.ru/
 
 ## Макет проекта в Figma: 
-https://www.figma.com/file/0V4f3LVrUvoUC3QVBj2Y6Y/Макет-страниц-для-сайта-салон-красоты?node-id=0%3A1
+https://www.figma.com/file/4Q542gpd5sGqdYUffUFFhc/%D0%90%D0%B3%D0%B5%D0%BD%D1%82%D1%81%D1%82%D0%B2%D0%BE-%D0%BF%D0%BE-%D1%80%D0%B5%D0%BC%D0%BE%D0%BD%D1%82%D1%83-%D0%BA%D0%B2%D0%B0%D1%80%D1%82%D0%B8%D1%80?node-id=0%3A1 
 
 ## Папка на drive.google.com с отчетом
-https://drive.google.com/drive/folders/1moVls9gUSUrjSBjGyoR750kq8J_mf68X?usp=sharing
-
-## Angular version
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.9.
 
 ## Запуск проекта локально
 npm run start

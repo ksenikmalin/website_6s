@@ -3,7 +3,7 @@
     <td [ngClass]="{'bg-danger': request.status === 'звонок отклонен', 'bg-success': request.status === 'звонок совершен'}">{{request.phone}}</td>
     <td [ngClass]="{'bg-danger': request.status === 'звонок отклонен', 'bg-success': request.status === 'звонок совершен'}">{{request.status}}</td>
     <td *ngIf="!hideManager;" [ngClass]="{'bg-danger': request.status === 'звонок отклонен', 'bg-success': request.status === 'звонок совершен'}">
-        <button [ngClass]="{'bg-none': request.status === 'звонок отклонен' || request.status === 'звонок совершен'}" type="button" class=" btn-sm btn btn-warning" (click)="onChangeRequest(request, request.status)">Изменить статус</button>
+        <button [ngClass]="{'bg-none': request.status === 'звонок отклонен' || request.status === 'звонок совершен'}" type="button" class=" btn-sm btn btn-success" style="background-color: rgb(51, 51, 51);" (click)="onChangeRequest(request, request.status)">Изменить статус</button>
     </td>
 </ng-container>
 <ng-template #anotherblock>
