@@ -1,5 +1,7 @@
 input {
     border: 1px solid rgb(253, 217, 196) !important;
+
+
 }
 
 input:focus {
@@ -12,3 +14,5 @@ input:focus {
     background: white !important;
     border: 1px solid rgb(253, 219, 196) !important;
 }
+
+

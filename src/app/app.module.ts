@@ -22,7 +22,7 @@ import { MastersComponent } from './masters/masters.component';
 import { AddMasterComponent } from './add-master/add-master.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ListRequestsComponent } from './list-requests/list-requests.component';
-import { FormsModule } from '@angular/forms'; 
+import { FormsModule } from '@angular/forms';
 import { FilterService } from './shared/pipes/filter-service.pipe';
 import { SortPipe } from './shared/pipes/sort-pipe.pipe';
 import { SortAbcPipe } from './shared/pipes/sort-abc.pipe';

@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MainService } from '../shared/services/main.service';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: "app-registration",
   templateUrl: "./registration.component.html",
