@@ -10,7 +10,6 @@
             <div class="d-flex justify-content-center align-items-center">
                 <div style="width: 400px">
                     <h3 class="mb-3 text-center">Номер заказа: {{record.id_record}}</h3>
-
                     <p class="mb-2" *ngIf="!hideOperator"><b>Фамилия:</b> {{user.surname}}</p>
                     <p class="mb-2" *ngIf="!hideOperator"><b>Имя:</b> {{user.name}}</p>
                     <p class="mb-2" *ngIf="!hideOperator"><b>Отчество:</b> {{user.patronymic}}</p>
@@ -24,9 +23,6 @@
                     <p class="mb-2"><b>Продолжительность:</b> {{service.naim_dur}}</p>
                     <p class="mb-2"><b>Адрес: </b> {{record.address}}</p>
                     <p class="mb-2"><b>Площадь: </b> {{record.square}}</p>
-
-
-
                     <hr>
                     <h4 class="my-line mb-2 text-success">Стоимость: {{record.price}} рублей</h4>
                 <div *ngIf="!hideClient" class="row justify-content-center">

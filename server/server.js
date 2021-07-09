@@ -323,8 +323,6 @@ app.post("/api/addService", (req, res) => {
   if (!req.body) return res.sendStatus(400);
   console.log('Пришёл POST запрос для создания карточки:');
   console.log(req.body);
-
-
   connection.query(`INSERT INTO services (namenovanie, price, id_object, id_repair_type, id_duration, filename) VALUES (?, ?, ?, ?, ?, ?);`,
   [req.body.namenovanie, req.body.price, req.body.id_object, req.body.id_repair_type, req.body.id_duration, req.body.filename],
     function (err) {
@@ -337,7 +335,10 @@ app.post("/api/addService", (req, res) => {
     });
 })
 
-// Обработка получения информации об одном товаре
+
+
+
+// Обработка получения информации об одной услуге
 app.post("/api/oneService", (req, res) => {
   if (!req.body) return res.sendStatus(400);
   console.log('Пришёл POST запрос для загрузки страницы об услуге:');
