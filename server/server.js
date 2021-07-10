@@ -416,7 +416,7 @@ app.post("/api/oneServiceRecord", (req, res) => {
     });
 })
 
-// Обработка изменения информации об одном товаре
+// Обработка изменения информации об одной услуге
 app.put('/api/services/:id_service', function (req, res) {
   console.log('PUT /', );
   console.log(req.body);
